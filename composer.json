@@ -1,0 +1,36 @@
+{
+	"name": "m42e/workflow",
+	"description": "Library to handle workflows from workflow.is app",
+	"keywords": ["plist", "workflow", "workflow.is"],
+	"type": "library",
+	"homepage": "https://github.com/m42e/workflow",
+	"license": "MIT",
+	"require": {
+		"php": ">=5.3",
+		"rodneyrehm/plist":"v2.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit":              ">=3.7.0",
+		"satooshi/php-coveralls":       "0.6.*",
+		"squizlabs/PHP_CodeSniffer":    "1.5.*"
+	},
+	"authors": [
+		{
+			"name": "Matthias Bilger",
+			"email": "matthias@bilger.info"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/m42e/workflow/issues",
+		"source": "https://github.com/m42e/workflow"
+	},
+	"repository":{
+		"type":"git",
+		"url":"https://github.com/m42e/workflow.git"
+	},
+	"autoload": {
+		"psr-4": {
+			"M42e\\Workflow\\":"lib/"
+		}
+	}
+}
