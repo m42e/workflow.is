@@ -6,8 +6,6 @@ use \CFPropertyList\CFPropertyList;
 
 
 class Workflow {
-
-	
 	const WORKFLOW_ID_REGEX = '/(?P<id>[a-y0-9]*)/';
 	const WORKFLOW_URL_REGEX = '/(?P<url>https?:\/\/workflow.is\/workflows\/(?P<id>[a-y0-9]*))/';
 	const WORKFLOW_URL_BASE = 'https://workflow.is/workflows/';
@@ -36,6 +34,11 @@ class Workflow {
 	 * @author Matthias Bilger
 	 **/
 	private $plist = null;
+	/**
+	 * Description of the workflow.
+	 * @author Matthias Bilger
+	 **/
+	private $description = '';
 	/**
 	 * The last error occured.
 	 * @author Matthias Bilger
@@ -126,20 +129,18 @@ class Workflow {
 	 * @author Matthias Bilger
 	 **/
 	public function getPlist(){
-		if($this->plist == null){
-			$this->loadPlist();
-		}
+		$this->loadPlist();
 		return $this->plist;
 	}
 
 	/**
-		* Load the filename from the workflow webview.
-		* @return void
+	 * Load the filename from the workflow webview.
+	 * @return void
 	 * @author Matthias Bilger
 	 **/
 	public function loadName(){
 		$website = file_get_contents(self::WORKFLOW_URL_BASE.$this->workflowId);
-		
+
 		if(!preg_match('/<title>(?P<name>.*?)( \(v[0-9.]*?\))?<\/title>/', $website, $namematches)){
 			$this->workflowId = '';
 			$this->name = '';
@@ -199,7 +200,7 @@ class Workflow {
 		$subdir = substr($this->workflowId, -2);
 		$targetdir = self::$targetdir.'/'.$subdir.'/';
 		if (!file_exists($targetdir)) {
-			    mkdir($targetdir, 0777, true);
+			mkdir($targetdir, 0777, true);
 		}
 		return $targetdir.$this->workflowId.'.wflow'.(($extraExtension != '')?'.'.$extraExtension:'');
 	}
@@ -241,10 +242,10 @@ class Workflow {
 		return $this->buildDownloadUrl(self::WORKFLOW_FILE_URL, self::WORKFLOW_FILE_EXTENSION);
 	}
 	/**
-		* Download file to folder.
-		* @param $target The target file of the download.
-		* @param $source The source URL.
-		* @param $force If true the download will also be done if file already exists.
+	 * Download file to folder.
+	 * @param $target The target file of the download.
+	 * @param $source The source URL.
+	 * @param $force If true the download will also be done if file already exists.
 	 *
 	 * @return void
 	 * @author Matthias Bilger
@@ -262,9 +263,40 @@ class Workflow {
 	 * @return void
 	 * @author Matthias Bilger
 	 */
-	public function loadPlist(){
-		$workflowfile = $this->getWorkflowFilename();
-		$this->plist = new CFPropertyList($workflowfile, CFPropertyList::FORMAT_AUTO);
+	private function loadPlist(){
+		if($this->plist == null){
+			$workflowfile = $this->getWorkflowFilename();
+			$this->plist = new CFPropertyList($workflowfile, CFPropertyList::FORMAT_AUTO);
+		}
+	}
+	/**
+	 * getActions
+	 * @return CFArray
+	 * @author Matthias Bilger
+	 **/
+	public function getActions()
+	{
+		$this->loadPlist();
+		return $this->plist->getValue()->get('WFWorkflowActions');
+	}
+	/**
+	 * Get the description of the workflow, if it follows the following conditions:
+	 * A text block placed after an "Exit Workflow" block.
+	 * @return string Description of the workflow.
+	 * @author Matthias Bilger
+	 **/
+	public function getDescription()
+	{
+		if($this->description == ''){
+			$exitfound = false;
+			$actions = $this->getActions()->toArray();
+			if($actions[count($actions)-2]['WFWorkflowActionIdentifier'] == 'is.workflow.actions.exit'){
+				if($actions[count($actions)-1]['WFWorkflowActionIdentifier'] == 'is.workflow.actions.gettext'){
+					$this->description = $actions[count($actions)-1]['WFWorkflowActionParameters']['string'];
+				}
+			}
+		}
+		return $this->description;
 	}
 	/**
 	 * Check for a valid workflow id.
