@@ -1,6 +1,6 @@
 <?php
 
-namespace M42e\Workflow;
+namespace M42e\WorkflowIs;
 
 use \CFPropertyList\CFPropertyList;
 

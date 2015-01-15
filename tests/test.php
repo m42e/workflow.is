@@ -1,7 +1,7 @@
 <?php
 
-namespace M42e\Workflow\Tests;
-use M42e\Workflow\Workflow;
+namespace M42e\WorkflowIs\Tests;
+use M42e\WorkflowIs\Workflow;
 require (__DIR__.'/../vendor/autoload.php');
 
 Workflow::$targetdir = '/tmp/workflow';

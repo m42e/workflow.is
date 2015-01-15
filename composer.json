@@ -1,9 +1,9 @@
 {
-	"name": "m42e/workflow",
+	"name": "m42e/workflow.is",
 	"description": "Library to handle workflows from workflow.is app",
 	"keywords": ["plist", "workflow", "workflow.is"],
 	"type": "library",
-	"homepage": "https://github.com/m42e/workflow",
+	"homepage": "https://github.com/m42e/workflow.is",
 	"license": "MIT",
 	"require": {
 		"php": ">=5.3",
@@ -21,16 +21,16 @@
 		}
 	],
 	"support": {
-		"issues": "https://github.com/m42e/workflow/issues",
-		"source": "https://github.com/m42e/workflow"
+		"issues": "https://github.com/m42e/workflow.is/issues",
+		"source": "https://github.com/m42e/workflow.is"
 	},
 	"repository":{
 		"type":"git",
-		"url":"https://github.com/m42e/workflow.git"
+		"url":"https://github.com/m42e/workflow.is.git"
 	},
 	"autoload": {
 		"psr-4": {
-			"M42e\\Workflow\\":"lib/"
+			"M42e\\WorkflowIs\\":"lib/"
 		}
 	}
 }
