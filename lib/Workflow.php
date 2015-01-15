@@ -6,6 +6,7 @@ use \CFPropertyList\CFPropertyList;
 
 
 class Workflow {
+	const WORKFLOW_NAME_EXTENSION = 'name';
 	const WORKFLOW_ID_REGEX = '/(?P<id>[a-y0-9]*)/';
 	const WORKFLOW_URL_REGEX = '/(?P<url>https?:\/\/workflow.is\/workflows\/(?P<id>[a-y0-9]*))/';
 	const WORKFLOW_URL_BASE = 'https://workflow.is/workflows/';
@@ -106,6 +107,22 @@ class Workflow {
 		return new self('');
 	}
 
+	/*
+	 * Getter for workflow filename.
+	 */
+	public function getFilename()
+	{
+		return $this->getWorkflowFilename();;
+	}
+	/*
+	 * Getter for image filename.
+	 */
+	public function getImageFilename()
+	{
+		return $this->getWorkflowFilename(self::WORKFLOW_IMAGE_EXTENSION);;
+	}
+	
+
 	/**
 	 * Get the workflow id.
 	 * @return string Workflow id.
@@ -139,14 +156,20 @@ class Workflow {
 	 * @author Matthias Bilger
 	 **/
 	public function loadName(){
-		$website = file_get_contents(self::WORKFLOW_URL_BASE.$this->workflowId);
+		$localNameFile = $this->getWorkflowFilename(self::WORKFLOW_NAME_EXTENSION);
+		if(!file_exists($localNameFile)){
+			$website = file_get_contents(self::WORKFLOW_URL_BASE.$this->workflowId);
 
-		if(!preg_match('/<title>(?P<name>.*?)( \(v[0-9.]*?\))?<\/title>/', $website, $namematches)){
-			$this->workflowId = '';
-			$this->name = '';
-			$this->error = 'invalid url';
+			if(!preg_match('/<title>(?P<name>.*?)( \(v[0-9.]*?\))?<\/title>/', $website, $namematches)){
+				$this->workflowId = '';
+				$this->name = '';
+				$this->error = 'invalid url';
+			}else{
+				$this->name = html_entity_decode($namematches['name']);
+				file_put_contents($localNameFile, $this->name);
+			}
 		}else{
-			$this->name = html_entity_decode($namematches['name']);
+			$this->name = file_get_contents($localNameFile);
 		}
 	}
 
