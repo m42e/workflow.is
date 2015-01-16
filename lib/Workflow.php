@@ -36,6 +36,12 @@ class Workflow {
 	 **/
 	private $plist = null;
 	/**
+	 * Actions will be saved here if used.
+	 *
+	 * @var array of Action
+	 */
+	private $actions = null;
+	/**
 	 * Description of the workflow.
 	 * @author Matthias Bilger
 	 **/
@@ -99,12 +105,13 @@ class Workflow {
 		return $workflow;
 	}
 	/**
-	 * Create an empty/invalid Workflow.
-	 * @return Workflow An empty/invalid workflow.
+	 * initialize static content
+	 * @return void
 	 * @author Matthias Bilger
 	 **/
-	private static function createEmpty(){
-		return new self('');
+	private function staticInit()
+	{
+
 	}
 
 	/*
@@ -311,7 +318,6 @@ class Workflow {
 	public function getDescription()
 	{
 		if($this->description == ''){
-			$exitfound = false;
 			$actions = $this->getActions()->toArray();
 			if($actions[count($actions)-2]['WFWorkflowActionIdentifier'] == 'is.workflow.actions.exit'){
 				if($actions[count($actions)-1]['WFWorkflowActionIdentifier'] == 'is.workflow.actions.gettext'){
@@ -320,6 +326,21 @@ class Workflow {
 			}
 		}
 		return $this->description;
+	}
+	/**
+	 * getWorkflowSteps
+	 * @return array of workflow steps
+	 * @author Matthias Bilger
+	 **/
+	public function getWorkflowSteps()
+	{
+		if($this->actions == null){
+			$this->actions = array();
+			foreach($this->getActions() as $action){
+				$this->actions[] = Action::createAction($action);
+			}
+		}
+		return $this->actions;
 	}
 	/**
 	 * Check for a valid workflow id.
