@@ -202,7 +202,6 @@ class Workflow {
 	 **/
 	private function downloadImage(){
 		$workflowfile = $this->getWorkflowFilename(self::WORKFLOW_IMAGE_EXTENSION);
-		echo $workflowfile."\n";
 		$this->doDownloadFile($workflowfile, $this->buildImageUrl());
 		$img = imagecreatefrompng($workflowfile);
 		list($width, $height) = getimagesize($workflowfile);
