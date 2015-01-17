@@ -175,6 +175,7 @@ class Workflow {
 			}else{
 				$this->name = html_entity_decode($namematches['name']);
 				file_put_contents($localNameFile, $this->name);
+				chmod($localNameFile, 0644);
 			}
 		}else{
 			$this->name = file_get_contents($localNameFile);
