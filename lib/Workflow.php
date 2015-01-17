@@ -10,6 +10,7 @@ class Workflow {
 	const WORKFLOW_ID_REGEX = '/(?P<id>[a-y0-9]*)/';
 	const WORKFLOW_URL_REGEX = '/(?P<url>https?:\/\/workflow.is\/workflows\/(?P<id>[a-y0-9]*))/';
 	const WORKFLOW_URL_BASE = 'https://workflow.is/workflows/';
+	const WORKFLOW_IMPORT_BASE = 'workflow://import-workflow/?url=';
 	const WORKFLOW_IMAGE_URL = 'https://workflow-gallery.s3.amazonaws.com/workflow_icons/';
 	const WORKFLOW_IMAGE_EXTENSION = 'png';
 	const WORKFLOW_IMAGE_SIZE = 30;
@@ -248,8 +249,8 @@ class Workflow {
 	 * @return string URL
 	 * @author Matthias Bilger
 	 */
-	private function buildDownloadUrl($base, $extension){
-		return $base.$this->workflowId.'.'.$extension;
+	private function buildDownloadUrl($base, $extension = ''){
+		return $base.$this->workflowId.(($extension != '')?'.'.$extension:'');
 	}
 	/**
 	 * Download workflow file.
@@ -342,6 +343,19 @@ class Workflow {
 		return $this->actions;
 	}
 	/**
+	 * getWorkflowStepsArray
+	 * @return void
+	 * @author John Doe
+	 **/
+	public function getWorkflowStepsArray()
+	{
+		$val = array();
+		foreach($this->getWorkflowSteps() as $action){
+			$val[] = $action->getTypename();
+		}
+		return $val;
+	}
+	/**
 	 * Check for a valid workflow id.
 	 *
 	 * @return boolean
@@ -350,6 +364,14 @@ class Workflow {
 	public function isEmpty(){
 		return $this->workflowId == '';
 	}
+	/**
+	 * getWorkflowUrl
+	 * @return string
+	 * @author Matthias Bilger
+	 **/
+	public function getWorkflowUrl()
+	{
+		return $this->buildDownloadUrl(self::WORKFLOW_URL_BASE);
+	}
 }
-
 
