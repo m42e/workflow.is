@@ -231,6 +231,7 @@ class Workflow {
 		$targetdir = self::$targetdir.'/'.$subdir.'/';
 		if (!file_exists($targetdir)) {
 			mkdir($targetdir, 0777, true);
+			chmod($targetdir, 0755);
 		}
 		return $targetdir.$this->workflowId.'.wflow'.(($extraExtension != '')?'.'.$extraExtension:'');
 	}
