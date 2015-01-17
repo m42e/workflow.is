@@ -77,7 +77,7 @@ class Workflow {
 	 **/
 	public static function createFromUrl($url, $download = false){
 		if(!preg_match(self::WORKFLOW_URL_REGEX, $url, $matches)){
-			return self::createEmpty();
+			return new self('');
 		}
 		$workflow = new self($matches['id']);
 		$workflow->loadName();
@@ -94,7 +94,7 @@ class Workflow {
 	public static function createFromId($workflowId, $loadName = true, $download = false)
 	{
 		if(!preg_match(self::WORKFLOW_ID_REGEX, $workflowId, $matches)){
-			return self::createEmpty();
+			return new self('');
 		}
 		$workflow = new self($workflowId);
 		if($loadName){
