@@ -220,7 +220,7 @@ class Workflow {
 			unlink($workflowfile);
 		}
 		imagepng($tmp, $workflowfile);
-		chmod($targetdir, 0644);
+		chmod($workflowfile, 0644);
 	}
 	/**
 	 * Creates a filename for the workflow.
