@@ -327,7 +327,7 @@ class Workflow {
 			$actions = $this->getActions()->toArray();
 			if($actions[count($actions)-2]['WFWorkflowActionIdentifier'] == 'is.workflow.actions.exit'){
 				if($actions[count($actions)-1]['WFWorkflowActionIdentifier'] == 'is.workflow.actions.gettext'){
-					$this->description = $actions[count($actions)-1]['WFWorkflowActionParameters']['string'];
+					$this->description = $actions[count($actions)-1]['WFWorkflowActionParameters']['WFTextActionText']['Value']['string'];
 				}
 			}
 		}
