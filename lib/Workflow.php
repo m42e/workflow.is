@@ -13,6 +13,7 @@ class Workflow {
 	const WORKFLOW_IMPORT_BASE = 'workflow://import-workflow/?url=';
 	const WORKFLOW_IMAGE_URL = 'https://workflow-gallery.s3.amazonaws.com/workflow_icons/';
 	const WORKFLOW_IMAGE_EXTENSION = 'png';
+	const WORKFLOW_SMALL_IMAGE_EXTENSION = 'mail.png';
 	const WORKFLOW_IMAGE_SIZE = 30;
 	const WORKFLOW_FILE_URL = 'https://workflow-gallery.s3.amazonaws.com/workflows/';
 	const WORKFLOW_FILE_EXTENSION = 'wflow';
@@ -129,6 +130,13 @@ class Workflow {
 	{
 		return $this->getWorkflowFilename(self::WORKFLOW_IMAGE_EXTENSION);;
 	}
+	/*
+	 * Getter for image filename.
+	 */
+	public function getSmallImageFilename()
+	{
+		return $this->getWorkflowFilename(self::WORKFLOW_SMALL_IMAGE_EXTENSION);;
+	}
 	
 
 	/**
@@ -163,9 +171,9 @@ class Workflow {
 	 * @return void
 	 * @author Matthias Bilger
 	 **/
-	public function loadName(){
+	public function loadName($force = false){
 		$localNameFile = $this->getWorkflowFilename(self::WORKFLOW_NAME_EXTENSION);
-		if(!file_exists($localNameFile)){
+		if(!file_exists($localNameFile) || $force){
 			$website = file_get_contents(self::WORKFLOW_URL_BASE.$this->workflowId);
 
 			if(!preg_match('/<title>(?P<name>.*?)( \(v[0-9.]*?\))?<\/title>/', $website, $namematches)){
@@ -216,11 +224,12 @@ class Workflow {
 		imagesavealpha($tmp,true);
 		imagecopyresampled($tmp, $img, 0, 0, 0, 0, self::WORKFLOW_IMAGE_SIZE, $newHeight, $width, $height);
 
-		if (file_exists($workflowfile)) {
-			unlink($workflowfile);
+		$mailimage = $this->getWorkflowFilename(self::WORKFLOW_SMALL_IMAGE_EXTENSION);
+		if (file_exists($mailimage)) {
+			unlink($mailimage);
 		}
-		imagepng($tmp, $workflowfile);
-		chmod($workflowfile, 0644);
+		imagepng($tmp, $mailimage);
+		chmod($mailimage, 0644);
 	}
 	/**
 	 * Creates a filename for the workflow.
