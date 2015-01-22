@@ -184,7 +184,7 @@ class Workflow {
 				$this->name = html_entity_decode($namematches['name']);
 				file_put_contents($localNameFile, $this->name);
 				chmod($localNameFile, 0644);
-				if(preg_match('/<h2>(?P<description>.*?)<\/h2>/', $website, $descmatches)){
+				if(preg_match('/<h2>(?P<description>.*?)<\/h2>/s', $website, $descmatches)){
 					$this->description = $descmatches['description'];
 				}
 			}
