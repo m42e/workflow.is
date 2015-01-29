@@ -37,12 +37,12 @@ class Action{
 		$actionname = str_replace('.', ' ', $actionname);
 		$actionname = ucwords($actionname);
 
-		return new self($actionname, $action->get('WFWorkflowActionParameter'));
+		return new self($actionname, $action->get('WFWorkflowActionParameters'));
 
 	}
 
 	private function __construct($typename, $parameter){
-		$this->parameters = $parameter;
+		$this->parameters = new WFParameters($parameter);
 		$this->typename = $typename;
 	}
 
@@ -61,5 +61,73 @@ class Action{
 		return $this->parameters;
 	}
 	
+	public function getInfo(){
+		return $this->parameters->getInfo();
+	}
+
+	public function nesting(array &$nestingStack){
+		$pushed =false;	
+		$nesting = array('increase' => false, 'decrease' => false);
+		if($this->_increaseNesting($nestingStack[0])){
+			$nesting['increase'] = true;
+			if($nestingStack[0]['id'] != $this->parameters->getNestingId()){
+				array_unshift($nestingStack, array('id'=>$this->parameters->getNestingId(), 'count' => $this->getConditionalCount()));
+				$pushed =  true;
+			}
+		}
+		if(!$pushed && $this->_decreaseNesting($nestingStack[0])){
+			if($nestingStack[0]['count'] == 1){
+				array_shift($nestingStack);
+			}else{
+				$nestingStack[0]['count'] -= 1;
+			}
+			$nesting['decrease'] = true;
+		}
+		return $nesting;
+	}
+	private function getConditionalCount(){
+		if($this->typename == 'Conditional'){
+			return 2;
+		}
+		return 1;
+	}
+	/**
+	 * decreaseNesting
+	 * @return boolean
+	 * @author Matthias Bilger
+	 **/
+	private function _decreaseNesting($element)
+	{
+		$decrease = false;
+		if($this->typename == 'Conditional' && $this->parameters->getNestingId() == $element['id']){
+			$decrease = true;
+		}
+		if($this->typename == 'Repeat Count' && $this->parameters->getNestingId() == $element['id']){
+			$decrease = true;
+		}
+		if($this->typename == 'Choosefrommenu' && $this->parameters->getControlFlowMode() == 2){
+			$decrease = true;
+		}
+		return $decrease;
+	}
+	/**
+	 * increaseNesting
+	 * @return boolean
+	 * @author Matthias Bilger
+	 **/
+	private function _increaseNesting($element)
+	{
+		$increase = false;
+		if($this->typename == 'Conditional' && ($this->parameters->getNestingId() != $element['id'] || ($this->parameters->getNestingId() == $element['id'] && $element['count'] >= 2))){
+			$increase = true;
+		}
+		if($this->typename == 'Repeat Count' && $this->parameters->getNestingId() != $element['id']){
+			$increase = true;
+		}
+		if($this->typename == 'Choosefrommenu' && $this->parameters->getControlFlowMode() == 0){
+			$increase = true;
+		}
+		return $increase;
+	}
 	
 }

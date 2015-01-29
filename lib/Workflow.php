@@ -356,8 +356,13 @@ class Workflow {
 	public function getWorkflowStepsArray()
 	{
 		$val = array();
+		$nestingStack = array(array('id'=>'0'));
 		foreach($this->getWorkflowSteps() as $action){
-			$val[] = $action->getTypename();
+			$val[] = array(
+				'name' => $action->getTypename(),
+				'info' => $action->getInfo(),
+				'nesting' => $action->nesting($nestingStack),
+			);
 		}
 		return $val;
 	}
