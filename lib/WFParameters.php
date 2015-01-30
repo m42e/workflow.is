@@ -19,7 +19,7 @@ class WFParameters{
 		foreach($parameters as $key => $param){
 			$class = __NAMESPACE__.'\\Parameter\\'.$key;
 			if(class_exists($class)){
-				array_push($this->params, new $class($param));
+				$this->params[$key] = new $class($param);
 			}
 		}
 	}
@@ -32,19 +32,27 @@ class WFParameters{
 	public function getInfo(){
 		$info = array();
 		foreach($this->params as $value){
-			array_push($info, $value->getInfo());
+			$val = $value->getInfo();
+			if($val != null){
+				array_push($info, $value->getInfo());
+			}
 		}
 		return $info;
 	}
 
 	public function getControlFlowMode(){
-		$element = $this->data->get('WFControlFlowMode');
-		if($element == null){
-			return 0;
+		if(!array_key_exists('WFControlFlowMode', $this->params)){
+			return null;
 		}
-		return $element->getValue();
+		return $this->params['WFControlFlowMode']->getValue();
 	}
 	public function getNestingId(){
-		return 1 ;
+		if($this->hasGroupingId()){
+			return $this->params['GroupingIdentifier']->getValue();
+		}
+		return 0;
+	}
+	private function hasGroupingId(){
+		return array_key_exists('GroupingIdentifier', $this->params);
 	}
 }

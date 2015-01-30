@@ -12,5 +12,15 @@ use \CFPropertyList\CFDictionary;
 
 class WFConditionalActionString extends WFParameter
 {
+	public function __construct($options){
+		 parent::__construct($options);
+		 $this->label = 'Check for';
+	}
 
+	public function getInfo(){
+		if(!is_array($this->data->getValue())){
+			return parent::getInfo();
+		}
+		return null;
+	}
 }

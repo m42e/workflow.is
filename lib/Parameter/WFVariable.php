@@ -12,5 +12,10 @@ use \CFPropertyList\CFDictionary;
 
 class WFVariable extends WFParameter
 {
-
+	public function getInfo(){
+		if($this->getValueElementType() != 'Variable'){
+			return '';
+		}
+		return 'Variable Name: '. $this->getValueElement()->get('VariableName')->getValue();
+	}
 }

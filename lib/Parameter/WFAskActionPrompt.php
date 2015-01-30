@@ -12,5 +12,9 @@ use \CFPropertyList\CFDictionary;
 
 class WFAskActionPrompt extends WFParameter
 {
+	public function __construct($options){
+		 parent::__construct($options);
+		 $this->label = 'Prompt';
+	}
 
 }

@@ -10,7 +10,7 @@ use \CFPropertyList\CFDictionary;
  * @author Matthias Bilger
  */
 
-class WFAlertActionMessage extends WFParameter
+class WFAlertActionMessage extends WFTextActionText
 {
 
 }

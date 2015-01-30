@@ -12,5 +12,4 @@ use \CFPropertyList\CFDictionary;
 
 class WFSendMessageActionRecipients extends WFParameter
 {
-
 }

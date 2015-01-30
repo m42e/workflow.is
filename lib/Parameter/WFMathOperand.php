@@ -13,4 +13,20 @@ use \CFPropertyList\CFDictionary;
 class WFMathOperand extends WFParameter
 {
 
+	public function __construct($options){
+		 parent::__construct($options);
+		 $this->label = 'Operand';
+	}
+	public function getInfo(){
+		if(!is_array($this->data->getValue())){
+			return parent::getInfo();
+		}
+		if($this->hasValueElement()){
+			$type = $this->getValueElementType();
+			if($type == 'Variable'){
+				return $this->label.': '.$this->getValueElement()->get('VariableName')->getValue();
+			}
+		}
+		return null;
+	}
 }

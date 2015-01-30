@@ -12,5 +12,8 @@ use \CFPropertyList\CFDictionary;
 
 class WFReplaceTextFind extends WFParameter
 {
-
+	public function __construct($options){
+		 parent::__construct($options);
+		 $this->label = 'Find';
+	}
 }

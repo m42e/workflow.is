@@ -10,7 +10,7 @@ use \CFPropertyList\CFDictionary;
  * @author Matthias Bilger
  */
 
-class WFURLActionURL extends WFParameter
+class WFURLActionURL extends WFTextActionText
 {
 
 }

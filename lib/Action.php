@@ -102,7 +102,7 @@ class Action{
 		if($this->typename == 'Conditional' && $this->parameters->getNestingId() == $element['id']){
 			$decrease = true;
 		}
-		if($this->typename == 'Repeat Count' && $this->parameters->getNestingId() == $element['id']){
+		if(($this->typename == 'Repeat Each' || $this->typename == 'Repeat Count') && $this->parameters->getNestingId() == $element['id']){
 			$decrease = true;
 		}
 		if($this->typename == 'Choosefrommenu' && $this->parameters->getControlFlowMode() == 2){
@@ -121,7 +121,7 @@ class Action{
 		if($this->typename == 'Conditional' && ($this->parameters->getNestingId() != $element['id'] || ($this->parameters->getNestingId() == $element['id'] && $element['count'] >= 2))){
 			$increase = true;
 		}
-		if($this->typename == 'Repeat Count' && $this->parameters->getNestingId() != $element['id']){
+		if(($this->typename == 'Repeat Each' || $this->typename == 'Repeat Count') && $this->parameters->getNestingId() != $element['id']){
 			$increase = true;
 		}
 		if($this->typename == 'Choosefrommenu' && $this->parameters->getControlFlowMode() == 0){

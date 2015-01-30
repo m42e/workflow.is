@@ -12,5 +12,8 @@ use \CFPropertyList\CFDictionary;
 
 class WFItemIndex extends WFParameter
 {
-
+	public function __construct($options){
+		 parent::__construct($options);
+		 $this->label = 'Specifier';
+	}
 }

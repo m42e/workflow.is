@@ -10,7 +10,7 @@ use \CFPropertyList\CFDictionary;
  * @author Matthias Bilger
  */
 
-class WFNotificationActionBody extends WFParameter
+class WFNotificationActionBody extends WFTextActionText
 {
 
 }

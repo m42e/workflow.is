@@ -12,5 +12,8 @@ use \CFPropertyList\CFDictionary;
 
 class WFMatchTextCaseSensitive extends WFParameter
 {
+	public function getInfo(){
+		return 'CaseSensitive';
+	}
 
 }
