@@ -117,7 +117,7 @@ class WFParameter{
 
 			$offset = count($vararray)-1;
 			foreach($vararray as $key => $var){
-				$string = mb_substr($string, 0, $key - $offset).'{'.$var.'}'.mb_substr($string, $key - $offset );
+				$string = mb_substr($string, 0, $key - $offset).'{{{'.$var.'}}}'.mb_substr($string, $key - $offset );
 				$offset--;
 			}
 		}

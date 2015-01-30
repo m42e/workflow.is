@@ -6,15 +6,15 @@ use \CFPropertyList\CFPropertyList;
 use \CFPropertyList\CFDictionary;
 
 /**
- * WFRSSItemQuantity
+ * WFMathOperation
  * @author Matthias Bilger
  */
 
-class WFRSSItemQuantity extends WFParameter
+class WFDateFormatStyle extends WFParameter
 {
 	public function __construct($options){
 		 parent::__construct($options);
-		 $this->label = 'Quantity';
+		 $this->label = 'Date format';
 	}
 
 }
