@@ -12,4 +12,8 @@ use \CFPropertyList\CFDictionary;
 
 class WFSendMessageActionRecipients extends WFParameter
 {
+	public function __construct($options){
+		 parent::__construct($options);
+		 $this->label = 'Recipients';
+	}
 }

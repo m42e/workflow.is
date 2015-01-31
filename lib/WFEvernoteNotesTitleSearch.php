@@ -6,15 +6,14 @@ use \CFPropertyList\CFPropertyList;
 use \CFPropertyList\CFDictionary;
 
 /**
- * WFSendEmailActionBccRecipients
+ * WFRepeatCount
  * @author Matthias Bilger
  */
 
-class WFSendEmailActionBccRecipients extends WFParameter
+class WFEvernoteNotesTitleSearch extends WFParameter
 {
-
 	public function __construct($options){
 		 parent::__construct($options);
-		 $this->label = 'BCC';
+		 $this->label = 'Title';
 	}
 }

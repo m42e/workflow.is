@@ -17,10 +17,4 @@ class WFConditionalActionString extends WFParameter
 		 $this->label = 'Check for';
 	}
 
-	public function getInfo(){
-		if(!is_array($this->data->getValue())){
-			return parent::getInfo();
-		}
-		return null;
-	}
 }

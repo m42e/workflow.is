@@ -13,4 +13,8 @@ use \CFPropertyList\CFDictionary;
 class WFSendEmailActionSubject extends WFParameter
 {
 
+	public function __construct($options){
+		 parent::__construct($options);
+		 $this->label = 'Subject';
+	}
 }

@@ -13,4 +13,8 @@ use \CFPropertyList\CFDictionary;
 class WFTwitterAccount extends WFParameter
 {
 
+	public function __construct($options){
+		 parent::__construct($options);
+		 $this->label = 'Twitter account';
+	}
 }
