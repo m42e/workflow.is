@@ -61,7 +61,7 @@ class WFParameter{
 				if(get_class($element) != 'CFPropertyList\CFDictionary'){
 					$listitem .= '- '.$element->getValue()."\n";
 				}else if($element->get('WFContactData')){
-					$listitem .= '- '.base64_decode($element->get('WFContactData')->getValue())."\n";
+					$listitem .= '- VCARD';//base64_decode($element->get('WFContactData')->getValue())."\n";
 				}
 			}
 			return $listitem;
