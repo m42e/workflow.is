@@ -12,5 +12,9 @@ use \CFPropertyList\CFDictionary;
 
 class WFSpeakTextRate extends WFParameter
 {
+	public function __construct($options){
+		 parent::__construct($options);
+		 $this->label = 'Speak rate';
+	}
 
 }

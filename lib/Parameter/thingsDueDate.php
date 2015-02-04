@@ -6,15 +6,15 @@ use \CFPropertyList\CFPropertyList;
 use \CFPropertyList\CFDictionary;
 
 /**
- * WFSendEmailActionBccRecipients
+ * WFSendMessageActionRecipients
  * @author Matthias Bilger
  */
 
-class WFSendEmailActionBccRecipients extends WFParameter
+class thingsDueDate extends WFParameter
 {
-
 	public function __construct($options){
 		 parent::__construct($options);
-		 $this->label = 'BCC';
+		 $this->label = 'Due date:';
 	}
 }
+

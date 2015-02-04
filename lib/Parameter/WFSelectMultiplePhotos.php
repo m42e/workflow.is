@@ -12,5 +12,7 @@ use \CFPropertyList\CFDictionary;
 
 class WFSelectMultiplePhotos extends WFParameter
 {
-
+	public function getInfo(){
+		return 'Select Multiple';
+	}
 }

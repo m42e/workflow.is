@@ -13,4 +13,7 @@ use \CFPropertyList\CFDictionary;
 class WFQuickLookActionFullScreen extends WFParameter
 {
 
+	public function getInfo(){
+		return ($this->data->getValue() == 1)?'Fullscreen':null;
+	}
 }

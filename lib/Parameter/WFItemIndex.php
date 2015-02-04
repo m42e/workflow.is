@@ -14,6 +14,6 @@ class WFItemIndex extends WFParameter
 {
 	public function __construct($options){
 		 parent::__construct($options);
-		 $this->label = 'Specifier';
+		 $this->label = 'Index';
 	}
 }

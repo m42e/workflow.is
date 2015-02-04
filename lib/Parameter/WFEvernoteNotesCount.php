@@ -12,5 +12,8 @@ use \CFPropertyList\CFDictionary;
 
 class WFEvernoteNotesCount extends WFParameter
 {
-
+	public function __construct($options){
+		 parent::__construct($options);
+		 $this->label = 'Count';
+	}
 }

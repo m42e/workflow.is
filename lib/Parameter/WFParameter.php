@@ -29,19 +29,42 @@ class WFParameter{
 			if($this->hasValueElement()){
 				if($this->isStringValue()){
 					return $this->label.': '.$this->decodeStringValue();
+				}else if($this->isAsk()){
+					return $this->label.': Ask';
 				}else if($this->isVariable()){
-					return $this->label.': '.$this->getValueElement()->get('VariableName')->getValue();
+					return $this->label.': {{{'.$this->getValueElement()->get('VariableName')->getValue().'}}}';
 				}else if($this->isClipboard()){
 					return $this->label.': Clipboard';
 				}
 									
 			}
+			if($this->isDate()){
+				return $this->getDate();
+			}
+			if($this->isContact()){
+				return $this->getContacts();
+			}
 			if(is_array($this->data->getValue())){
 				echo '<pre>';
+				var_dump(get_class($this));
 				var_dump($this->data->getValue());
 				return $this->label.': '.join(' ', $this->data->getValue());
 			}
 			return $this->label.': '.$this->data->getValue();
+		}
+		return null;
+	}
+	private function getContacts(){
+		if($this->getValueElement()->get('WFContactFieldValues') != null && is_array($this->getValueElement()->get('WFContactFieldValues')->getValue())){
+			$listitem = $this->label.":\n";
+			foreach($this->getValueElement()->get('WFContactFieldValues')->getValue() as $element){
+				if(get_class($element) != 'CFPropertyList\CFDictionary'){
+					$listitem .= '- '.$element->getValue()."\n";
+				}else if($element->get('WFContactData')){
+					$listitem .= '- VCARD';//base64_decode($element->get('WFContactData')->getValue())."\n";
+				}
+			}
+			return $listitem;
 		}
 		return null;
 	}
@@ -79,8 +102,21 @@ class WFParameter{
 	protected function isClipboard(){
 		return $this->isType('Clipboard');
 	}
+	protected function isAsk(){
+		return $this->isType('Ask');
+	}
 	protected function isVariable(){
 		return $this->isType('Variable');
+	}
+	protected function getDate(){
+		return date(DATE_RFC2822, $this->data->getValue());
+	}
+	protected function isDate(){
+		return get_class($this->data) == 'CFPropertyList\CFDate';
+	}
+	protected function isContact(){
+		return $this->has('Value') 
+			&& $this->getValueElement()->get('WFContactFieldValues') != null;
 	}
 	protected function isStringValue(){
 		return $this->has('Value') 
@@ -117,7 +153,7 @@ class WFParameter{
 
 			$offset = count($vararray)-1;
 			foreach($vararray as $key => $var){
-				$string = mb_substr($string, 0, $key - $offset).'{'.$var.'}'.mb_substr($string, $key - $offset );
+				$string = mb_substr($string, 0, $key - $offset).'{{{'.$var.'}}}'.mb_substr($string, $key - $offset );
 				$offset--;
 			}
 		}

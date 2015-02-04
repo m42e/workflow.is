@@ -13,4 +13,15 @@ use \CFPropertyList\CFDictionary;
 class WFItems extends WFParameter
 {
 
+	public function getInfo(){
+			$listitem = '';
+			if(is_array($this->data->getValue())){
+				$listitem = "Items:\n";
+				foreach($this->data->getValue() as $element){
+					$listitem .= '- '.$element->getValue()."\n";
+				}
+				return $listitem;
+			}
+			return null;
+	}
 }

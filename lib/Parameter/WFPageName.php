@@ -6,15 +6,16 @@ use \CFPropertyList\CFPropertyList;
 use \CFPropertyList\CFDictionary;
 
 /**
- * WFSendEmailActionBccRecipients
+ * WFMathOperation
  * @author Matthias Bilger
  */
 
-class WFSendEmailActionBccRecipients extends WFParameter
+class WFPageName extends WFParameter
 {
-
 	public function __construct($options){
 		 parent::__construct($options);
-		 $this->label = 'BCC';
+		 $this->label = 'Page name';
 	}
+
 }
+

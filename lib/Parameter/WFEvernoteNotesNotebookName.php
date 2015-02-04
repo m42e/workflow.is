@@ -12,5 +12,8 @@ use \CFPropertyList\CFDictionary;
 
 class WFEvernoteNotesNotebookName extends WFParameter
 {
-
+	public function __construct($options){
+		 parent::__construct($options);
+		 $this->label = 'Notebook';
+	}
 }
