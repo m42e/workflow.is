@@ -68,6 +68,9 @@ class Workflow {
 	 * @author Matthias Bilger
 	 **/
 	public static function extractWorkflowUrls($text){
+		if(is_array($text)){
+			$text = join('', $text);
+		}
 		preg_match_all(self::WORKFLOW_URL_REGEX, $text, $matches);
 		return $matches['url'];
 	}
@@ -171,7 +174,7 @@ class Workflow {
 	 * @return void
 	 * @author Matthias Bilger
 	 **/
-	public function loadName($force = false){
+	public function loadName($force = true){
 		$localNameFile = $this->getWorkflowFilename(self::WORKFLOW_NAME_EXTENSION);
 		if(!file_exists($localNameFile) || $force){
 			$website = file_get_contents(self::WORKFLOW_URL_BASE.$this->workflowId);
