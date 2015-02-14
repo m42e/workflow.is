@@ -174,7 +174,7 @@ class Workflow {
 	 * @return void
 	 * @author Matthias Bilger
 	 **/
-	public function loadName($force = true){
+	public function loadName($force = false){
 		$localNameFile = $this->getWorkflowFilename(self::WORKFLOW_NAME_EXTENSION);
 		if(!file_exists($localNameFile) || $force){
 			$website = file_get_contents(self::WORKFLOW_URL_BASE.$this->workflowId);
