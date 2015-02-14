@@ -95,7 +95,7 @@ class Workflow {
 	 * @return Workflow The new workflow.
 	 * @author Matthias Bilger
 	 **/
-	public static function createFromId($workflowId, $loadName = true, $download = false)
+	public static function createFromId($workflowId, $loadName = false, $download = false)
 	{
 		if(!preg_match(self::WORKFLOW_ID_REGEX, $workflowId, $matches)){
 			return new self('');
@@ -186,7 +186,7 @@ class Workflow {
 			}else{
 				$this->name = html_entity_decode($namematches['name']);
 				file_put_contents($localNameFile, $this->name);
-				chmod($localNameFile, 0644);
+				@chmod($localNameFile, 0644);
 				if(preg_match('/<h2>(?P<description>.*?)<\/h2>/s', $website, $descmatches)){
 					$this->description = $descmatches['description'];
 				}
