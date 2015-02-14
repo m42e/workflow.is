@@ -35,7 +35,10 @@ class WFParameter{
 					return $this->label.': {{{'.$this->getValueElement()->get('VariableName')->getValue().'}}}';
 				}else if($this->isClipboard()){
 					return $this->label.': Clipboard';
+				}else if($this->isInput()){
+					return $this->label.': Input';
 				}
+
 									
 			}
 			if($this->isDate()){
@@ -98,6 +101,9 @@ class WFParameter{
 		return $this->has('Value') 
 			&& $this->getValueElement()->get('Type') != null
 			&& $this->getValueElement()->get('Type')->getValue() == $type;
+	}
+	protected function isInput(){
+		return $this->isType('Input');
 	}
 	protected function isClipboard(){
 		return $this->isType('Clipboard');
