@@ -202,7 +202,7 @@ class Workflow {
 	private function getWebContent($url){
 		$website = false;
 		$retrycount = 0;
-		while($a == false && $retrycount < 10)
+		while($website == false && $retrycount < 10)
 		{
 			$website = @file_get_contents($url);
 			$retrycount++;
