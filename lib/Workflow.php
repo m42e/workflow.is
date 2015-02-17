@@ -177,7 +177,7 @@ class Workflow {
 	public function loadName($force = false){
 		$localNameFile = $this->getWorkflowFilename(self::WORKFLOW_NAME_EXTENSION);
 		if(!file_exists($localNameFile) || $force){
-			$website = file_get_contents(self::WORKFLOW_URL_BASE.$this->workflowId);
+			$website = $this->getWebContent(self::WORKFLOW_URL_BASE.$this->workflowId);
 
 			if(!preg_match('/<title>(?P<name>.*?)( \(v[0-9.]*?\))?<\/title>/', $website, $namematches)){
 				$this->workflowId = '';
@@ -194,6 +194,20 @@ class Workflow {
 		}else{
 			$this->name = file_get_contents($localNameFile);
 		}
+	}
+
+	/**
+	 * Load web content with retry
+	 */
+	private function getWebContent($url){
+		$website = false;
+		$retrycount = 0;
+		while($a == false && $retrycount < 10)
+		{
+			$website = @file_get_contents($url);
+			$retrycount++;
+		}
+		return $website;
 	}
 
 	/**
