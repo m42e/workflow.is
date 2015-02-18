@@ -205,6 +205,7 @@ class Workflow {
 		while($website == false && $retrycount < 10)
 		{
 			$website = @file_get_contents($url);
+			sleep(2);
 			$retrycount++;
 		}
 		return $website;
