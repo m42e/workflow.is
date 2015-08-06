@@ -15,7 +15,7 @@ class Workflow {
 	const WORKFLOW_IMAGE_EXTENSION = 'png';
 	const WORKFLOW_SMALL_IMAGE_EXTENSION = 'mail.png';
 	const WORKFLOW_IMAGE_SIZE = 30;
-	const WORKFLOW_FILE_URL = 'https://workflow-gallery.s3.amazonaws.com/workflows/';
+	const WORKFLOW_FILE_URL = 'https://workflow-gallery.s3.amazonaws.com/workflow/';
 	const WORKFLOW_FILE_EXTENSION = 'wflow';
 
 	static $targetdir = __DIR__;
@@ -202,10 +202,21 @@ class Workflow {
 	private function getWebContent($url){
 		$website = false;
 		$retrycount = 0;
+		$options = array(
+			'http'=>array(
+				'method'=>"GET",
+				'header'=>"" .
+				"DNT: 1\r\n" .  // check function.stream-context-create on php.net
+				"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n" .  // check function.stream-context-create on php.net
+				"User-agent: Mozilla/5.0 (iPhone; CPU iPhone OS 8_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12B410 Safari/600.1.4\r\n" // i.e. An iPad 
+			)
+		);
+		$context = stream_context_create($options);
+		$website = @file_get_contents($url, false, $context);
 		while($website == false && $retrycount < 10)
 		{
-			$website = @file_get_contents($url);
 			sleep(2);
+			$website = @file_get_contents($url);
 			$retrycount++;
 		}
 		return $website;
@@ -293,7 +304,14 @@ class Workflow {
 	 */
 	private function downloadFile(){
 		$workflowfile = $this->getWorkflowFilename();
-		$this->doDownloadFile($workflowfile, $this->buildFileUrl());
+		$this->doDownloadFile($workflowfile, $this->getFileUrl());
+	}
+	private function getFileUrl(){
+		$website = $this->getWebContent(self::WORKFLOW_URL_BASE.$this->workflowId);
+		if(!preg_match("/btn-install\"\s+href=\".*?url=([^&]*)/msi", $website, $result)){
+			return $this->buildFileUrl();
+		}
+		return urldecode($result[1]);
 	}
 	/**
 	 * Build the URL for the workflow file.
@@ -314,7 +332,7 @@ class Workflow {
 	 * @author Matthias Bilger
 	 */
 	private function doDownloadFile($target, $source, $force = false){
-		if(!$force && file_exists($target)){
+		if(!$force && file_exists($target) && filesize($target) > 0){
 			return;
 		}
 		file_put_contents($target, fopen($source, 'r'));
