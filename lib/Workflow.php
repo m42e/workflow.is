@@ -370,10 +370,19 @@ class Workflow {
 	{
 		if($this->description == ''){
 			$actions = $this->getActions()->toArray();
+			foreach($actions as $action){
+				if($action['WFWorkflowActionIdentifier'] == 'is.workflow.actions.comment'){
+					$this->description = $action['WFWorkflowActionParameters']['WFCommentActionText']['Value']['string'];
+					break;
+				}
+			}
+			if($this->description == '' && count($actions) > 2){
+
 			if($actions[count($actions)-2]['WFWorkflowActionIdentifier'] == 'is.workflow.actions.exit'){
 				if($actions[count($actions)-1]['WFWorkflowActionIdentifier'] == 'is.workflow.actions.gettext'){
 					$this->description = $actions[count($actions)-1]['WFWorkflowActionParameters']['WFTextActionText']['Value']['string'];
 				}
+			}
 			}
 		}
 		return $this->description;
